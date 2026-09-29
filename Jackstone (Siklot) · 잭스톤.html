@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jackstone (Siklot) · 필리핀 공기놀이</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--card:rgba(255,253,246,.96);--fg:#1c2b4a;--mut:#5b6785;--tip:#fff1c2;--kc:#a1174a;--acc:#ce1126;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--card:rgba(27,36,68,.96);--fg:#f4efe0;--mut:#b3bcd8;--tip:#2c3762;--kc:#ffa8c5}}
+:root[data-theme="dark"]{--card:rgba(27,36,68,.96);--fg:#f4efe0;--mut:#b3bcd8;--tip:#2c3762;--kc:#ffa8c5}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:#0038a8;color:var(--fg);font-family:"Baloo 2","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;display:flex;flex-direction:column;transition:background .6s;overflow:hidden;position:relative}
+#bg{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#bg span{position:absolute;bottom:0;opacity:.28;animation:rise linear infinite}
+@keyframes rise{from{transform:translateY(20vh) rotate(0)}to{transform:translateY(-120vh) rotate(360deg)}}
+header,nav,main{position:relative;z-index:1}
+header,nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;color:#fff}
+header strong{font-size:19px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+#mute{border:2px solid #fff;background:rgba(255,255,255,.2);color:#fff;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer}
+main{flex:1;overflow-y:auto;padding:0 14px;display:flex}
+.slide{display:none;margin:auto;width:100%;max-width:880px;background:var(--card);border-radius:28px;padding:22px 26px;border-top:12px solid var(--acc);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.slide.on{display:block;animation:in .45s cubic-bezier(.2,1.3,.4,1)}@keyframes in{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:none}}
+h1{font-size:clamp(28px,6vw,46px);margin:0;color:var(--acc);line-height:1.15}h2{font-size:clamp(21px,4.2vw,30px);margin:0 0 6px;color:var(--acc);line-height:1.2}
+p,li{font-size:clamp(15px,2.2vw,18px);line-height:1.5;margin:6px 0}
+.k{display:block;color:var(--kc);font-weight:700;font-size:.9em;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+h1 .k,h2 .k{font-size:.6em}
+.emoji{font-size:56px;display:inline-block;cursor:pointer;animation:bob 1.6s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-8px) rotate(8deg)}}
+.emoji:active{animation:spin .6s}@keyframes spin{to{transform:rotate(360deg) scale(1.4)}}
+.sub{color:var(--mut)}
+.diagram{display:block;margin:10px auto;max-width:100%;background:linear-gradient(180deg,#fff7e0,#ffe6c2);border-radius:18px;border:3px solid var(--acc)}
+.stepgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media(max-width:520px){.stepgrid{grid-template-columns:1fr}}
+.stepcard{background:var(--tip);border-radius:18px;padding:10px;border:3px solid transparent;cursor:pointer;transition:all .2s;text-align:center}
+.stepcard:hover{border-color:var(--acc);transform:translateY(-3px)}
+.stepcard.done{background:#d3f9d8;border-color:#2b8a3e}
+.stepcard .n{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;font-size:14px;margin-bottom:4px}
+.stepcard.done .n{content:"";background:#2b8a3e}
+.stepcard svg{width:100%;height:110px}
+.stepcard p{font-size:14px;margin:4px 0 0}
+.picks{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;justify-content:center}
+.big{border:0;border-radius:20px;padding:16px 22px;font:800 20px "Baloo 2",sans-serif;color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);transition:transform .15s;background:linear-gradient(135deg,#ff7e29,#d6336c)}
+.big:hover{transform:translateY(-4px) rotate(-1deg)}.big:active{transform:translateY(3px);box-shadow:none}
+.big .k{color:#fff;font-size:.6em;opacity:.95}
+.game{position:relative;overflow:hidden;margin:10px auto;max-width:440px;border-radius:20px;border:4px solid var(--acc);background:linear-gradient(180deg,#8fd3ff 0%,#8fd3ff 60%,#5dbb46 60%,#3f9c33 100%);height:280px}
+#ball{position:absolute;left:50%;top:210px;font-size:40px;transform:translateX(-50%);transition:top .35s ease-out,left .35s}
+.jack{position:absolute;font-size:26px;cursor:pointer;user-select:none;transition:transform .15s;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
+.jack:hover{transform:scale(1.25)}
+.jack.got{opacity:0;transform:scale(0) rotate(180deg)}
+.lvl{position:absolute;top:8px;left:10px;background:rgba(255,255,255,.85);border-radius:10px;padding:4px 10px;font-weight:800;font-size:14px;color:var(--acc)}
+.ctl{text-align:center}
+.ctl button{background:var(--acc);color:#fff;border:0;border-radius:14px;padding:10px 20px;font:800 16px "Baloo 2",sans-serif;cursor:pointer;margin:4px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.ctl button:active{transform:translateY(3px);box-shadow:none}
+.ctl button:disabled{opacity:.4}
+.score{text-align:center;font-weight:800;min-height:2.4em;margin:4px 0}.score .k{display:inline;margin-left:6px;font-size:.8em}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 16px;border-radius:16px;border:3px solid var(--acc);background:var(--tip);color:var(--fg);font:700 16px "Baloo 2",sans-serif;cursor:pointer;transition:all .2s}
+.opt .k{font-size:.82em}.opt:hover{transform:scale(1.02)}
+.opt.ok{background:#2b8a3e;color:#fff;border-color:#2b8a3e}.opt.ok .k{color:#fff}.opt.bad{background:#e03131;color:#fff;border-color:#e03131;animation:shake .4s}.opt.bad .k{color:#fff}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.cf{position:fixed;top:-40px;z-index:9;pointer-events:none;animation:fall 2.4s linear forwards}@keyframes fall{to{transform:translateY(115vh) rotate(600deg)}}
+nav button.arrow{background:#fff;color:#0038a8;border:0;border-radius:50%;width:50px;height:50px;font-size:26px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+nav button:disabled{opacity:.3}
+.dots{display:flex;gap:9px}.dot{width:13px;height:13px;border-radius:50%;background:#fff;opacity:.45;border:0;padding:0;cursor:pointer;transition:all .2s}.dot.on{opacity:1;transform:scale(1.5)}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<header><strong>🇵🇭 Jackstone · 시클롯 (공기놀이)</strong><button id="mute" aria-label="Sound">🔊</button></header>
+<main>
+
+<section class="slide on" data-bg="#0038a8,#ce1126" data-acc="#0038a8">
+<div class="emoji">⭐</div>
+<h1>Jackstone (Siklot)<span class="k">잭스톤 (시클롯)</span></h1>
+<p>A Filipino street game like jacks: toss a small ball, scoop up star-shaped metal pieces before it bounces twice!<span class="k">공기놀이와 비슷한 필리핀 길거리 놀이예요: 작은 공을 던지고, 두 번 튀기 전에 별 모양 금속 조각을 집어요!</span></p>
+<div class="picks"><button class="big" data-go="1">▶ Let's Learn!<span class="k">배워 볼까요!</span></button></div>
+<p class="sub">Tap the star, flip cards, tick steps, then play the game! ← → to move.<span class="k">별을 누르고, 카드를 넘기고, 단계를 체크한 뒤 게임을 해 보세요! ← → 로 이동.</span></p>
+</section>
+
+<section class="slide" data-bg="#f59f00,#e8590c" data-acc="#e8590c">
+<h2>What You Need<span class="k">준비물</span></h2>
+<p>10 small star-shaped metal <b>jackstones</b>, and one small rubber <b>bouncy ball</b>. 1 or more players, played on a flat floor or table.<span class="k">별 모양 금속 <b>잭스톤</b> 10개와 작은 고무 <b>공</b> 하나. 1명 이상, 평평한 바닥이나 테이블에서.</span></p>
+<svg class="diagram" viewBox="0 0 360 160" style="height:180px">
+<circle cx="80" cy="80" r="26" fill="#e8590c"/><circle cx="80" cy="80" r="26" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 4"/>
+<text x="80" y="87" font-size="26" text-anchor="middle">🔴</text>
+<g id="jkgrp">
+<text x="160" y="60" font-size="30">⭐</text><text x="200" y="90" font-size="30">⭐</text><text x="170" y="120" font-size="30">⭐</text>
+<text x="240" y="55" font-size="30">⭐</text><text x="270" y="95" font-size="30">⭐</text><text x="230" y="125" font-size="30">⭐</text>
+<text x="300" y="70" font-size="30">⭐</text><text x="320" y="110" font-size="30">⭐</text>
+</g>
+</svg>
+</section>
+
+<section class="slide" data-bg="#7048e8,#0b7285" data-acc="#7048e8">
+<h2>How to Play — 4 Steps<span class="k">놀이 방법 — 4단계</span></h2>
+<p class="sub">Tap each card as you learn it!<span class="k">배운 카드를 눌러 체크하세요!</span></p>
+<div class="stepgrid" id="steps">
+<div class="stepcard" data-s="1"><span class="n">1</span>
+<svg viewBox="0 0 200 110"><text x="20" y="60" font-size="34">✋</text><text x="70" y="30" font-size="26">⭐⭐⭐</text><text x="80" y="70" font-size="26">⭐⭐</text><text x="60" y="100" font-size="26">⭐⭐⭐⭐⭐</text></svg>
+<p>Scatter all 10 jackstones on the floor.<span class="k">잭스톤 10개를 바닥에 흩뿌려요.</span></p></div>
+<div class="stepcard" data-s="2"><span class="n">2</span>
+<svg viewBox="0 0 200 110"><text x="80" y="30" font-size="34">🔴</text><line x1="98" y1="45" x2="98" y2="15" stroke="#e8590c" stroke-width="3" stroke-dasharray="3 3"/><text x="70" y="95" font-size="30">✋</text></svg>
+<p>Toss the ball straight up with one hand.<span class="k">한 손으로 공을 위로 던져요.</span></p></div>
+<div class="stepcard" data-s="3"><span class="n">3</span>
+<svg viewBox="0 0 200 110"><text x="20" y="70" font-size="30">⭐</text><text x="10" y="30" font-size="24">👆</text><text x="150" y="50" font-size="34">🔴</text></svg>
+<p>Before it bounces twice, grab 1 jackstone (then 2, then 3...).<span class="k">공이 두 번 튀기 전에 잭스톤을 집어요 (1개→2개→3개...).</span></p></div>
+<div class="stepcard" data-s="4"><span class="n">4</span>
+<svg viewBox="0 0 200 110"><text x="60" y="60" font-size="34">🔴</text><text x="20" y="30" font-size="26">✊⭐</text><text x="140" y="90" font-size="20">❌</text></svg>
+<p>Catch the ball with the same hand. Miss or drop a jack? Next player's turn!<span class="k">같은 손으로 공을 잡아요. 놓치면 다음 사람 차례!</span></p></div>
+</div>
+</section>
+
+<section class="slide" data-bg="#0b7285,#3b5bdb" data-acc="#3b5bdb">
+<h2>Try It Yourself!<span class="k">직접 해 보세요!</span></h2>
+<p class="sub">Toss the ball, then click the jackstones before it lands!<span class="k">공을 던지고, 떨어지기 전에 잭스톤을 클릭하세요!</span></p>
+<div class="game" id="arena"><div class="lvl" id="lvl">Level 1 · 레벨 1</div><div id="ball">🔴</div></div>
+<p class="score" id="sc"></p>
+<div class="ctl"><button id="toss">Toss Ball 🔴 (Space) · 공 던지기</button></div>
+</section>
+
+<section class="slide" data-bg="#c2255c,#7048e8" data-acc="#c2255c">
+<div class="emoji">🧠</div>
+<h2>Quiz Time!<span class="k">퀴즈 시간!</span></h2>
+<div id="quiz"></div>
+</section>
+
+<section class="slide" data-bg="#2b8a3e,#0038a8" data-acc="#2b8a3e">
+<div class="emoji">🎉</div>
+<h2>Salamat! Let's play together!<span class="k">살라맛(고마워요)! 같이 놀아요!</span></h2>
+<p>Jackstone builds hand-eye coordination and quick reflexes — and costs almost nothing to play.<span class="k">잭스톤은 손과 눈의 협응력과 순발력을 길러 주고, 돈이 거의 들지 않아요.</span></p>
+<div class="picks"><button class="big" id="party">🎊 Party!<span class="k">축하해요!</span></button><button class="big" data-go="-6" style="background:linear-gradient(135deg,#3b5bdb,#0b7285)">↺ Again<span class="k">처음부터</span></button></div>
+</section>
+</main>
+<nav><button class="arrow" id="prev">‹</button><div class="dots" id="dots"></div><button class="arrow" id="next">›</button></nav>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var slides=[].slice.call(document.querySelectorAll('.slide')),i=0,muted=false,ac=null;
+function ctx(){ac=ac||new (window.AudioContext||window.webkitAudioContext)();return ac}
+function tone(f,d,type,delay,vol){if(muted)return;try{var c=ctx(),t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(vol||.15,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function sweep(f,d,to){if(muted)return;try{var c=ctx(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(to,t+d);g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
+var S={nav:function(){tone(660,.1,'triangle');tone(880,.1,'triangle',.07)},grab:function(n){tone(500+Math.min(n,10)*45,.11,'square')},drop:function(){sweep(400,.4,80)},tick:function(){tone(760,.09,'sine')},tag:function(){sweep(200,.3,60)},win:function(){[523,659,784,1047].forEach(function(f,k){tone(f,.25,'triangle',k*.1)})}};
+$('mute').onclick=function(){muted=!muted;$('mute').textContent=muted?'🔇':'🔊';S.nav()};
+var bg=$('bg'),em=['⭐','🌴','☀️','🔴','🥭','🌺','✨'];
+for(var n=0;n<14;n++){var s=document.createElement('span');s.textContent=em[n%em.length];s.style.left=(n*7.3)%100+'%';s.style.fontSize=(20+n%4*10)+'px';s.style.animationDuration=(14+n%5*4)+'s';s.style.animationDelay='-'+(n*2.3)+'s';bg.appendChild(s)}
+function confetti(){var e=['🎉','✨','🌟','🇵🇭','⭐','🔴'];for(var n=0;n<34;n++){var c=document.createElement('span');c.className='cf';c.textContent=e[n%e.length];c.style.left=Math.random()*100+'%';c.style.fontSize=(18+Math.random()*22)+'px';c.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(c);setTimeout(function(x){x.remove()},3200,c)}}
+var dots=$('dots'),prev=$('prev'),next=$('next');
+slides.forEach(function(_,n){var d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Slide '+(n+1));d.onclick=function(){go(n)};dots.appendChild(d)});
+function go(n,q){var old=i;i=Math.max(0,Math.min(slides.length-1,n));if(old!==i&&!q)S.nav();
+slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
+var s=slides[i],c=s.dataset.bg.split(',');document.body.style.background='linear-gradient(135deg,'+c[0]+','+c[1]+')';document.documentElement.style.setProperty('--acc',s.dataset.acc);
+[].forEach.call(dots.children,function(d,k){d.classList.toggle('on',k===i)});prev.disabled=i===0;next.disabled=i===slides.length-1;
+if(i!==3)resetGame();if(i===6&&old!==6)setTimeout(confetti,300)}
+prev.onclick=function(){go(i-1)};next.onclick=function(){go(i+1)};
+[].forEach.call(document.querySelectorAll('[data-go]'),function(b){b.onclick=function(){var v=+b.dataset.go;go(v<0?0:v)}});
+$('party').onclick=function(){S.win();confetti()};
+[].forEach.call(document.querySelectorAll('.emoji'),function(e){e.onclick=function(){S.win()}});
+[].forEach.call(document.querySelectorAll('.stepcard'),function(l){l.onclick=function(){l.classList.toggle('done');S.tick();var wrap=l.parentNode;if(wrap.querySelectorAll('.stepcard.done').length===wrap.children.length){S.win();confetti()}}});
+var sx=null;document.addEventListener('touchstart',function(e){sx=e.touches[0].clientX});
+document.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>80)go(i+(dx<0?1:-1));sx=null});
+function bi(en,kr){return en+'<span class="k">'+kr+'</span>'}
+// GAME
+var arena=$('arena'),ball=$('ball'),level=1,score=0,best=0,jacks=[],phase='idle',fallTimer=null,msg='';
+function showScore(){$('sc').innerHTML=bi('Grabbed: '+score+' · Best: '+best+' '+msg,'집은 개수: '+score+' · 최고: '+best)}
+function clearJacks(){jacks.forEach(function(j){j.el.remove()});jacks=[]}
+function spawnJacks(n){clearJacks();var w=arena.clientWidth,h=170;
+for(var k=0;k<n;k++){var el=document.createElement('div');el.className='jack';el.textContent='⭐';
+var x=30+Math.random()*(w-60),y=90+Math.random()*h;el.style.left=x+'px';el.style.top=y+'px';
+el.onclick=function(jo){return function(){if(phase!=='falling')return;if(jo.got)return;jo.got=true;jo.el.classList.add('got');score++;S.grab(score);showScore();checkWin(n)}}({el:el,got:false});
+arena.appendChild(el);jacks.push({el:el});}
+}
+function checkWin(n){var gotc=jacks.filter(function(j){return j.el.classList.contains('got')}).length;if(gotc>=n){phase='caught';clearTimeout(fallTimer);ball.style.top='210px';ball.style.left='50%';msg='✅';showScore();setTimeout(function(){level++;if(level>5){level=1;S.win();confetti()}$('lvl').innerHTML='Level '+level+' <span class="k" style="display:inline">레벨 '+level+'</span>';msg='';toss()},650)}}
+function toss(){if(phase==='rising'||phase==='falling')return;
+phase='rising';ball.style.transition='top .5s ease-out';ball.style.top='20px';
+spawnJacks(level+1);
+setTimeout(function(){phase='falling';ball.style.transition='top .9s ease-in';ball.style.top='210px';
+fallTimer=setTimeout(function(){if(phase==='falling'){phase='idle';S.drop();var missed=jacks.filter(function(j){return !j.el.classList.contains('got')}).length;if(missed>0){if(score>best)best=score;msg='💔';score=0;showScore()}}},950)},520)}
+function resetGame(){clearTimeout(fallTimer);clearJacks();phase='idle';score=0;level=1;msg='';var lv=$('lvl');if(lv)lv.innerHTML='Level 1 <span class="k" style="display:inline">레벨 1</span>';showScore()}
+$('toss').onclick=toss;
+document.addEventListener('keydown',function(e){
+if(e.key==='ArrowRight'){go(i+1)}else if(e.key==='ArrowLeft'){go(i-1)}
+else if(i===3&&e.key===' '){e.preventDefault();toss()}});
+// QUIZ
+var Q=[{q:['What do you toss in Jackstone?','잭스톤에서 무엇을 던지나요?'],o:[['A small rubber ball','작은 고무공'],['A coin','동전'],['A paper fan','종이 부채']]},
+{q:['How many jackstones are used?','잭스톤은 몇 개를 쓰나요?'],o:[['10','10개'],['3','3개'],['20','20개']]},
+{q:['What happens if you drop a jack?','잭을 떨어뜨리면 어떻게 되나요?'],o:[["It's the next player's turn",'다음 사람 차례가 돼요'],['You win instantly','바로 승리해요'],['Nothing changes','아무 일도 없어요']]}];
+var qi=0,qs=0,box=$('quiz');
+function rq(){if(qi>=Q.length){box.innerHTML='<p class="score" style="font-size:22px">'+bi('You got '+qs+' / '+Q.length+'! '+(qs===3?'🏆':'👏'),'정답 '+qs+' / '+Q.length+'! '+(qs===3?'🏆':'👏'))+'</p><div class="ctl"><button id="rt">↺ Retry · 다시</button></div>';$('rt').onclick=function(){qi=0;qs=0;rq()};if(qs===3){S.win();confetti()}return}
+var d=Q[qi],h='<p style="font-size:19px"><b>'+bi(d.q[0],d.q[1])+'</b></p>',idx=[0,1,2].sort(function(){return Math.random()-.5});
+idx.forEach(function(k){h+='<button class="opt" data-k="'+k+'">'+bi(d.o[k][0],d.o[k][1])+'</button>'});box.innerHTML=h;
+[].forEach.call(box.querySelectorAll('.opt'),function(b){b.onclick=function(){var ok=b.dataset.k==='0';b.classList.add(ok?'ok':'bad');if(ok){qs++;S.win()}else{S.tag();var a=box.querySelector('[data-k="0"]');a.classList.add('ok')}
+[].forEach.call(box.querySelectorAll('.opt'),function(x){x.onclick=null});setTimeout(function(){qi++;rq()},1300)}})}
+rq();showScore();go(0,true);
+})();
+</script>
+</body>
+</html>
