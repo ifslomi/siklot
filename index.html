@@ -10,16 +10,23 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--card:rgba(27,36,68,.96);--fg:#f4efe0;--mut:#b3bcd8;--tip:#2c3762;--kc:#ffa8c5}}
 :root[data-theme="dark"]{--card:rgba(27,36,68,.96);--fg:#f4efe0;--mut:#b3bcd8;--tip:#2c3762;--kc:#ffa8c5}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
-body{background:#0038a8;color:var(--fg);font-family:"Baloo 2","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;display:flex;flex-direction:column;transition:background .6s;overflow:hidden;position:relative}
+body{background:#0038a8;color:var(--fg);font-family:"Baloo 2","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;display:flex;flex-direction:column;transition:background .6s;overflow:hidden;position:relative;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 6px,transparent 6px 12px),repeating-linear-gradient(-45deg,rgba(255,255,255,.035) 0 6px,transparent 6px 12px)}
 #bg{position:fixed;inset:0;pointer-events:none;overflow:hidden}
 #bg span{position:absolute;bottom:0;opacity:.28;animation:rise linear infinite}
 @keyframes rise{from{transform:translateY(20vh) rotate(0)}to{transform:translateY(-120vh) rotate(360deg)}}
 header,nav,main{position:relative;z-index:1}
-header,nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;color:#fff}
-header strong{font-size:19px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
-#mute{border:2px solid #fff;background:rgba(255,255,255,.2);color:#fff;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer}
+header,nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;color:#fff;position:relative;z-index:1}
+header{background:linear-gradient(90deg,rgba(252,209,22,.18),transparent 40%)}
+header strong{font-size:19px;text-shadow:0 2px 4px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+#sun{width:30px;height:30px;animation:spinSun 14s linear infinite;flex:none}
+@keyframes spinSun{to{transform:rotate(360deg)}}
+nav{background:repeating-linear-gradient(100deg,rgba(255,255,255,.14) 0 16px,rgba(0,0,0,.06) 16px 32px)}
+#mute,#musicBtn{border:2px solid #fff;background:rgba(255,255,255,.2);color:#fff;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer}
+#musicBtn.off{opacity:.45}
 main{flex:1;overflow-y:auto;padding:0 14px;display:flex}
-.slide{display:none;margin:auto;width:100%;max-width:880px;background:var(--card);border-radius:28px;padding:22px 26px;border-top:12px solid var(--acc);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.slide{display:none;position:relative;margin:auto;width:100%;max-width:880px;background:var(--card);border-radius:28px;padding:34px 26px 22px;box-shadow:0 14px 40px rgba(0,0,0,.35);overflow:hidden}
+.slide::before{content:"";position:absolute;top:0;left:0;right:0;height:16px;background:repeating-linear-gradient(135deg,var(--acc) 0 12px,#fcd116 12px 24px,#0038a8 24px 36px,#ffffff 36px 40px)}
+.slide::after{content:"🏮";position:absolute;top:22px;right:18px;font-size:26px;opacity:.5;transform:rotate(12deg)}
 .slide.on{display:block;animation:in .45s cubic-bezier(.2,1.3,.4,1)}@keyframes in{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:none}}
 h1{font-size:clamp(28px,6vw,46px);margin:0;color:var(--acc);line-height:1.15}h2{font-size:clamp(21px,4.2vw,30px);margin:0 0 6px;color:var(--acc);line-height:1.2}
 p,li{font-size:clamp(15px,2.2vw,18px);line-height:1.5;margin:6px 0}
@@ -61,11 +68,23 @@ h1 .k,h2 .k{font-size:.6em}
 nav button.arrow{background:#fff;color:#0038a8;border:0;border-radius:50%;width:50px;height:50px;font-size:26px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.25)}
 nav button:disabled{opacity:.3}
 .dots{display:flex;gap:9px}.dot{width:13px;height:13px;border-radius:50%;background:#fff;opacity:.45;border:0;padding:0;cursor:pointer;transition:all .2s}.dot.on{opacity:1;transform:scale(1.5)}
+#hut{position:fixed;left:0;right:0;bottom:64px;height:46px;pointer-events:none;opacity:.5;z-index:0}
 </style>
 </head>
 <body>
 <div id="bg"></div>
-<header><strong>🇵🇭 Jackstone · 시클롯 (공기놀이)</strong><button id="mute" aria-label="Sound">🔊</button></header>
+<svg id="hut" viewBox="0 0 800 46" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<g fill="#000" opacity=".55">
+<polygon points="40,46 40,26 70,10 100,26 100,46"/><rect x="62" y="30" width="16" height="16"/>
+<polygon points="220,46 220,20 260,2 300,20 300,46"/><rect x="250" y="26" width="18" height="20"/>
+<polygon points="440,46 440,24 475,8 510,24 510,46"/><rect x="465" y="30" width="16" height="16"/>
+<polygon points="630,46 630,18 675,0 720,18 720,46"/><rect x="660" y="26" width="20" height="20"/>
+<ellipse cx="150" cy="44" rx="24" ry="4"/><ellipse cx="370" cy="44" rx="20" ry="4"/><ellipse cx="580" cy="44" rx="26" ry="4"/>
+</g></svg>
+<header><strong><svg id="sun" viewBox="0 0 100 100"><circle cx="50" cy="50" r="16" fill="#fcd116"/><g fill="#fcd116">
+<polygon points="50,2 56,26 44,26"/><polygon points="50,98 56,74 44,74"/><polygon points="2,50 26,44 26,56"/><polygon points="98,50 74,44 74,56"/>
+<polygon points="14,14 32,26 26,32"/><polygon points="86,86 68,74 74,68"/><polygon points="86,14 68,26 74,32"/><polygon points="14,86 32,74 26,68"/>
+</g></svg>Jackstone · 시클롯 (공기놀이)</strong><div style="display:flex;gap:8px"><button id="musicBtn" aria-label="Music">🎵</button><button id="mute" aria-label="Sound">🔊</button></div></header>
 <main>
 
 <section class="slide on" data-bg="#0038a8,#ce1126" data-acc="#0038a8">
@@ -136,18 +155,66 @@ nav button:disabled{opacity:.3}
 var $=function(id){return document.getElementById(id)};
 var slides=[].slice.call(document.querySelectorAll('.slide')),i=0,muted=false,ac=null;
 function ctx(){ac=ac||new (window.AudioContext||window.webkitAudioContext)();return ac}
-function tone(f,d,type,delay,vol){if(muted)return;try{var c=ctx(),t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(vol||.15,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
+function tone(f,d,type,delay,vol){if(muted)return;try{var c=ctx(),t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime((vol||.15)*1.6,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
 function sweep(f,d,to){if(muted)return;try{var c=ctx(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(to,t+d);g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d)}catch(e){}}
 var S={nav:function(){tone(660,.1,'triangle');tone(880,.1,'triangle',.07)},grab:function(n){tone(500+Math.min(n,10)*45,.11,'square')},drop:function(){sweep(400,.4,80)},tick:function(){tone(760,.09,'sine')},tag:function(){sweep(200,.3,60)},win:function(){[523,659,784,1047].forEach(function(f,k){tone(f,.25,'triangle',k*.1)})}};
 $('mute').onclick=function(){muted=!muted;$('mute').textContent=muted?'🔇':'🔊';S.nav()};
-var bg=$('bg'),em=['⭐','🌴','☀️','🔴','🥭','🌺','✨'];
+
+// ---- Background folk melody (original pentatonic tune, rondalla/kulintang-style pluck, played softly on loop) ----
+var musicOn=true,musicStarted=false,musicGain=null,nextNoteTime=0,noteIdx=0,schedTimer=null;
+// gentle rendition inspired by "Bahay Kubo", a traditional public-domain Filipino folk song (best-effort approximation from memory, not a verified note-for-note transcription)
+var MELODY=[
+ // "Bahay kubo, kahit munti"
+ {n:392.00,d:.45},{n:392.00,d:.45},{n:440.00,d:.45},{n:392.00,d:.45},{n:329.63,d:.9},
+ {n:349.23,d:.45},{n:329.63,d:.45},{n:293.66,d:.9},
+ // "Ang halaman doon, ay sari-sari"
+ {n:329.63,d:.45},{n:329.63,d:.45},{n:329.63,d:.45},{n:349.23,d:.45},{n:329.63,d:.9},
+ {n:293.66,d:.45},{n:261.63,d:.9},
+ {n:293.66,d:.45},{n:329.63,d:.45},{n:349.23,d:.45},{n:329.63,d:.45},{n:293.66,d:.9},
+ // "Singkamas at talong, sigarilyas at mani" (melody repeats)
+ {n:392.00,d:.45},{n:392.00,d:.45},{n:440.00,d:.45},{n:392.00,d:.45},{n:329.63,d:.9},
+ {n:349.23,d:.45},{n:329.63,d:.45},{n:293.66,d:.9},
+ // "Sitaw, bataw, patani" (closing cadence)
+ {n:392.00,d:.45},{n:392.00,d:.45},{n:349.23,d:.45},{n:329.63,d:.45},{n:293.66,d:.45},{n:261.63,d:1.4},
+ {n:0,d:.6}
+];
+function pluck(freq,t,dur){
+ var c=ctx(),o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+ o.type='triangle';o.frequency.setValueAtTime(freq,t);
+ f.type='lowpass';f.frequency.setValueAtTime(2200,t);
+ g.gain.setValueAtTime(.0001,t);
+ g.gain.exponentialRampToValueAtTime(.11,t+.02);
+ g.gain.exponentialRampToValueAtTime(.0001,t+dur*.95);
+ o.connect(f);f.connect(g);g.connect(musicGain);
+ o.start(t);o.stop(t+dur)
+}
+function scheduler(){
+ if(!musicOn||muted){schedTimer=setTimeout(scheduler,300);return}
+ var c=ctx();
+ while(nextNoteTime<c.currentTime+1){
+  var note=MELODY[noteIdx%MELODY.length];
+  if(note.n>0)pluck(note.n,nextNoteTime,note.d*.95);
+  nextNoteTime+=note.d;
+  noteIdx++;
+ }
+ schedTimer=setTimeout(scheduler,150);
+}
+function startMusic(){
+ if(musicStarted)return;musicStarted=true;
+ var c=ctx();musicGain=c.createGain();musicGain.gain.value=.9;musicGain.connect(c.destination);
+ nextNoteTime=c.currentTime+.1;noteIdx=0;scheduler();
+}
+$('musicBtn').onclick=function(){musicOn=!musicOn;$('musicBtn').classList.toggle('off',!musicOn);$('musicBtn').textContent=musicOn?'🎵':'🎵';if(musicOn)startMusic()};
+document.addEventListener('click',function(){startMusic()},{once:true});
+document.addEventListener('keydown',function(){startMusic()},{once:true});
+var bg=$('bg'),em=['⭐','🌴','☀️','🔴','🥭','🌺','✨','🏮','🚌','🐚','🌿'];
 for(var n=0;n<14;n++){var s=document.createElement('span');s.textContent=em[n%em.length];s.style.left=(n*7.3)%100+'%';s.style.fontSize=(20+n%4*10)+'px';s.style.animationDuration=(14+n%5*4)+'s';s.style.animationDelay='-'+(n*2.3)+'s';bg.appendChild(s)}
 function confetti(){var e=['🎉','✨','🌟','🇵🇭','⭐','🔴'];for(var n=0;n<34;n++){var c=document.createElement('span');c.className='cf';c.textContent=e[n%e.length];c.style.left=Math.random()*100+'%';c.style.fontSize=(18+Math.random()*22)+'px';c.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(c);setTimeout(function(x){x.remove()},3200,c)}}
 var dots=$('dots'),prev=$('prev'),next=$('next');
 slides.forEach(function(_,n){var d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Slide '+(n+1));d.onclick=function(){go(n)};dots.appendChild(d)});
 function go(n,q){var old=i;i=Math.max(0,Math.min(slides.length-1,n));if(old!==i&&!q)S.nav();
 slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
-var s=slides[i],c=s.dataset.bg.split(',');document.body.style.background='linear-gradient(135deg,'+c[0]+','+c[1]+')';document.documentElement.style.setProperty('--acc',s.dataset.acc);
+var s=slides[i],c=s.dataset.bg.split(',');document.body.style.background='repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 6px,transparent 6px 12px),repeating-linear-gradient(-45deg,rgba(255,255,255,.035) 0 6px,transparent 6px 12px),linear-gradient(135deg,'+c[0]+','+c[1]+')';document.documentElement.style.setProperty('--acc',s.dataset.acc);
 [].forEach.call(dots.children,function(d,k){d.classList.toggle('on',k===i)});prev.disabled=i===0;next.disabled=i===slides.length-1;
 if(i!==3)resetGame();if(i===6&&old!==6)setTimeout(confetti,300)}
 prev.onclick=function(){go(i-1)};next.onclick=function(){go(i+1)};
